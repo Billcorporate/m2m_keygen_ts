@@ -1,0 +1,18 @@
+if [[ `git diff main -- 'package.json' | grep -E "^\+.*version:" | wc -l` -gt 0 ]]; then
+  VERSION=`cat package.json | grep "version" | grep -E -o "[0-9]+\.[0-9]+\.[0-9]+"`
+  echo "Checking version change in CHANGELOG.md"
+  if [[ `git diff main -- 'CHANGELOG.md' | grep -E "^\+.*$VERSION" | wc -l` -lt 3 || `git diff main -- 'CHANGELOG.md' | grep -E "^\+.*tag/v$VERSION" | wc -l` -lt 1 ]]; then
+    echo "Version change in CHANGELOG.md not found"
+    echo "Please update CHANGELOG.md with the new version and add the tag to list at the bottom"
+    exit 1
+  fi
+
+  echo "Checking higher version number"
+  NEW_VERSION=`git diff main -- 'package.json' | grep -E "^\+.*version:" | grep -E -o "[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?"`
+  OLD_VERSION=`git diff main -- 'package.json' | grep -E "^-.*version:" | grep -E -o "[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?"`
+  if [[ "$OLD_VERSION" > "$NEW_VERSION" ]]; then
+    echo "Higher version number not found"
+    echo "Please update package.json with the a correct new version"
+    exit 1
+  fi
+fi

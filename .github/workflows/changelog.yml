@@ -1,0 +1,22 @@
+name: Changelog
+
+on:
+  pull_request:
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Fetch main branch
+        run: git fetch origin main:main
+      - name: Verify changes in Changelog
+        run: git diff main -- CHANGELOG.md | grep ""
+  version_match:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Fetch main branch
+        run: git fetch origin main:main
+      - name: Check version matching
+        run: bin/check_version_change
