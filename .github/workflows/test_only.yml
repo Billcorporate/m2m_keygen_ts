@@ -21,6 +21,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
+      - name: Install yarn dep
+        run: yarn install
       - name: Run tests
         run: yarn test
       - name: Run type checking (Typescript)
