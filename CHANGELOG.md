@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [0.2.0] - 2022-08-31
+
+### Added
+
+- `sign` and `validate` functions in Signature object
+
 ### Changed
 
 - Activating cache for GH actions
@@ -36,7 +42,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Basic skeleton for the package
 
-[unreleased]: https://github.com/Billcorporate/m2m_keygen_ts/compare/v0.1.3...HEAD
+[unreleased]: https://github.com/Billcorporate/m2m_keygen_ts/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/Billcorporate/m2m_keygen_ts/releases/tag/v0.2.0
 [0.1.3]: https://github.com/Billcorporate/m2m_keygen_ts/releases/tag/v0.1.3
 [0.1.2]: https://github.com/Billcorporate/m2m_keygen_ts/releases/tag/v0.1.2
 [0.1.1]: https://github.com/Billcorporate/m2m_keygen_ts/releases/tag/v0.1.1

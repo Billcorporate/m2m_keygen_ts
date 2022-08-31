@@ -4,6 +4,7 @@
     "prettier",
     "plugin:prettier/recommended"
   ],
+  "ignorePatterns": ["dist/"],
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": [
