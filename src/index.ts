@@ -1,1 +1,3 @@
-export const hello = 'Hello World';
+import * as Signature from './signature';
+
+export { Signature };

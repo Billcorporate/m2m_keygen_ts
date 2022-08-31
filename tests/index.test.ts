@@ -1,7 +1,11 @@
-import { hello } from '../src/index';
+import { Signature } from '../src/index';
 
-describe('hello', () => {
-  it('works', () => {
-    expect(hello).toBe('Hello World');
+describe('Signature', () => {
+  it('exposes sign', () => {
+    expect(Signature.sign).toBeDefined();
+  });
+
+  it('exposes validate', () => {
+    expect(Signature.validate).toBeDefined();
   });
 });
