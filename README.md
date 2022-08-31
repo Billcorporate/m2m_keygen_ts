@@ -10,9 +10,80 @@ Install the gem and add to the application's Gemfile by executing:
 
 or if using npm
 
-    & npm install --save m2m-keygen
+    $ npm install --save m2m-keygen
 
 ## Usage
+
+### Signature
+
+This gem provides a module for signing and checking signature for HTTP requests
+
+Every method will use your secret key and eventually an encryption algorithm.
+
+```ts
+const signed = Signature.sign({ secret: "my_secret_key", algorithm: "sha256" });
+
+const signed = Signature.sign({ secret: "my_secret_key" }); // => Will default algorithm to sha512
+```
+
+#### Signing
+
+Use the `sign` method to generate a new signature.
+
+- `params` is a params hash. The order of keys isn't important as the lib will reformat them.
+- `verb` is the http verb
+- `path` is the path for the request
+
+```ts
+import { Signature } from "m2m-keygen";
+
+Signature.sign({
+  secret: "my_secret_key",
+  params: {
+    a: "test",
+    b: 1,
+    d: ["a", "b"],
+    c: {
+      e: 45,
+    },
+  },
+  verb: "get",
+  path: "/path",
+}); // => "a52168521868ebb37a38f90ec943163d9acb6ceb982206f437e1feb9ca32e7c1a8edef68f0ff4e195aeca1da93ae9afc8da214cb51a812fc6cc3730fdc7613fa"
+```
+
+After generating the signature send it alongside your request for verification on the receiver side.
+
+#### Verifying
+
+Use the `validate` method to verify that a received signature correspond to the HTTP request.
+
+- `params` is a params hash. The order of keys isn't important as the lib will reformat them.
+- `verb` is the http verb
+- `path` is the path for the request
+- `signature` is the received signature
+
+```ts
+import { Signature } from "m2m-keygen";
+
+Signature.validate(
+  secret: "my_secret_key",
+  params: {
+    a: "test",
+    b: 1,
+    d: ["a", "b"],
+    c: {
+      e: 45,
+    },
+  },
+  verb: "get",
+  path: "/path",
+  signature:
+    "a52168521868ebb37a38f90ec943163d9acb6ceb982206f437e1feb9ca32e7c1a8edef68f0ff4e195aeca1da93ae9afc8da214cb51a812fc6cc3730fdc7613fa"
+) // => true
+```
+
+If the validation is true, the request was signed with the same algorithm and same secret key.
 
 ## How does it works
 
