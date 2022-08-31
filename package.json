@@ -1,6 +1,6 @@
 {
   "name": "m2m-keygen",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simplify Machine to Machine signature generation in a secure way",
   "main": "dist/index.js",
   "repository": "https://github.com/Billcorporate/m2m_keygen_ts",
@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "prepare": "husky install",
     "test": "jest",
     "lint": "eslint --ext .ts src tests"
   },
@@ -23,5 +24,11 @@
     "prettier": "^2.7.1",
     "ts-jest": "^28.0.8",
     "typescript": "^4.8.2"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.jsx": "eslint --cache --fix",
+    "*.ts": "eslint --cache --fix",
+    "*.tsx": "eslint --cache --fix"
   }
 }
