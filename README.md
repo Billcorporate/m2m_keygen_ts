@@ -21,9 +21,11 @@ This gem provides a module for signing and checking signature for HTTP requests
 Every method will use your secret key and eventually an encryption algorithm.
 
 ```ts
-const signed = Signature.sign({ secret: "my_secret_key", algorithm: "sha256" });
+import { sign } from 'm2m-keygen';
 
-const signed = Signature.sign({ secret: "my_secret_key" }); // => Will default algorithm to sha512
+const signed = sign({ secret: "my_secret_key", algorithm: "sha256", ... });
+
+const signed = sign({ secret: "my_secret_key", ... }); // => Will default algorithm to sha512
 ```
 
 #### Signing
@@ -35,9 +37,9 @@ Use the `sign` method to generate a new signature.
 - `path` is the path for the request
 
 ```ts
-import { Signature } from "m2m-keygen";
+import { sign } from "m2m-keygen";
 
-Signature.sign({
+sign({
   secret: "my_secret_key",
   params: {
     a: "test",
@@ -64,9 +66,9 @@ Use the `validate` method to verify that a received signature correspond to the 
 - `signature` is the received signature
 
 ```ts
-import { Signature } from "m2m-keygen";
+import { validate } from "m2m-keygen";
 
-Signature.validate(
+validate(
   secret: "my_secret_key",
   params: {
     a: "test",
@@ -84,6 +86,86 @@ Signature.validate(
 ```
 
 If the validation is true, the request was signed with the same algorithm and same secret key.
+
+#### Fetch API with auto signature generation and expiry
+
+An helper as been added to generate a fetch function that will automatically sign the request and add an expiry.
+
+The `fetcher` argument is any function that is compatible with the fetch API.
+
+The result behaves slightly differently than a normal fetch function. It expects you to use 3 arguments:
+
+- The first one is the path without any query arguments
+- The second one is an object with the params to be sent
+- The last one is anything you would like to pass to the fetch function as a second argument (method, headers, …).
+
+The fetcher will add an expiry date to 90 seconds in the future (unless a previous expiry is already in params).
+It will then transform the params into query arguments or encode them as JSON in the body depending on the method (GET, POST, …) you use.
+
+```ts
+import { generateFetcher } from "m2m-keygen";
+
+const fetcher = generateFetcher({
+  fetcher: fetch, // fetch can be any function compatible with the fetch API
+  secret: "secret",
+  algorithm: "sha512", // optional, default to sha512
+  headerName: "X-Signature", // optional, default to X-Signature
+});
+
+// The generated fetcher, except for the params/body/query will behave exactly like fetch does.
+fetcher(
+  "http://example.com/oki",
+  { a: 1, b: 2 },
+  { method: "post", headers: { "My-Header": "Yay" } }
+)
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+```
+
+````
+
+#### Helpers
+
+This lib exposes a few helpers that can be used in other projects.
+
+##### translateParamsToQuery
+
+This helper will translate a params hash to a query string.
+
+```ts
+import { translateParamsToQuery } from "m2m-keygen";
+
+translateParamsToQuery({
+  a: 1,
+  b: "2",
+  c: true,
+  d: false,
+  e: [1, 2, 3],
+  f: { a: 1, b: 2 },
+  g: null,
+}); // => '?a=1&b=2&c=true&d=false&e[]=1&e[]=2&e[]=3&f[a]=1&f[b]=2&g=false'
+````
+
+##### secureCompare
+
+This helper will compare two strings in a secure way.
+Extracted from: [vadimdemedes/secure-compare](https://github.com/vadimdemedes/secure-compare)
+
+```ts
+import { secureCompare } from "m2m-keygen";
+
+secureCompare("abc", "abc"); // => true
+
+secureCompare("你好世界", "你好世界"); // => true
+
+secureCompare("abc", "ab"); // => false
+
+secureCompare("abc", "abd"); // => false
+```
 
 ## How does it works
 

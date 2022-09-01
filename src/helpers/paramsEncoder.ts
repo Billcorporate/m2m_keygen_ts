@@ -1,6 +1,6 @@
 import { ParamsTypes, ParamsValueType } from '../types/paramsTypes';
 
-export const translateParamsToQuery = (params: {
+type FetchParamsType = {
   [key: string]:
     | null
     | boolean
@@ -8,7 +8,15 @@ export const translateParamsToQuery = (params: {
     | string
     | Array<boolean | number | string>
     | { [key: string]: boolean | number | string };
-}) => {
+};
+
+/**
+ * Encode the parameters to be signed, Rails way.
+ *
+ * @param {FetchParamsType} params - params to sign
+ * @returns {string} - The encoded parameters
+ */
+export const translateParamsToQuery = (params: FetchParamsType) => {
   if (Object.keys(params).length === 0) return '';
 
   return `?${Object.entries(params)
@@ -57,7 +65,7 @@ export const translateParamsToQuery = (params: {
     .join('&')}`;
 };
 
-const jsonifyValue = (value: ParamsValueType): string | number => {
+const jsonifyValue = (value: ParamsValueType): string | number | boolean => {
   if (typeof value !== 'object') return value;
   return JSON.stringify(value);
 };

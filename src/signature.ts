@@ -2,7 +2,15 @@ import { createHmac } from 'crypto';
 import { encodes } from './helpers/paramsEncoder';
 import { ParamsTypes } from './types/paramsTypes';
 
-export const secureCompare = (a: string, b: string) => {
+/**
+ * Securely compare two strings
+ * Extracted from : https://github.com/vadimdemedes/secure-compare
+ *
+ * @param {string} a - first string
+ * @param {string} b - second string
+ * @returns {boolean} - true if strings are equal, false otherwise
+ */
+export const secureCompare = (a: string, b: string): boolean => {
   if (typeof a !== 'string' || typeof b !== 'string') return false;
 
   var mismatch = a.length === b.length ? 0 : 1;
@@ -17,7 +25,7 @@ export const secureCompare = (a: string, b: string) => {
   return mismatch === 0;
 };
 
-/*
+/**
  * Generate a signature from the different part of the request.
  *
  * @param {string} secret - The secret used to sign the request.
@@ -39,7 +47,7 @@ export const sign = ({
   params: ParamsTypes;
   verb: string;
   path: string;
-}) => {
+}): string => {
   const hmac = createHmac(algorithm, secret);
 
   hmac.update(`${verb.toUpperCase()}${path}${encodes(params)}`);
@@ -47,7 +55,7 @@ export const sign = ({
   return hmac.digest('hex');
 };
 
-/*
+/**
  * Validate the signature of a request.
  *
  * @param {string} secret - The secret used to sign the request.

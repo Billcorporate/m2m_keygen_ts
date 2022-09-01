@@ -18,7 +18,7 @@ export const generateFetcher =
     const headers: { [key: string]: string } = { ...init.headers };
     const path = entry.replace(/^(.*\/\/)?[^\/]+/, '');
 
-    params.expiry = Math.round(Number(new Date()) / 1000) + 90;
+    params.expiry ||= Math.round(Number(new Date()) / 1000) + 90;
 
     headers[headerName] = sign({
       secret,

@@ -8,6 +8,7 @@ export type ParamsTypes =
 
 // Type for parameters values
 export type ParamsValueType =
+  | boolean
   | number
   | string
   | Array<ParamsValueType>

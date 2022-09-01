@@ -46,6 +46,23 @@ describe('generateFetcher', () => {
     );
   });
 
+  it('keeps previous expiry', () => {
+    fetcher('http://example.com/oki', { a: 1, b: 2, expiry: timestamp + 100 });
+
+    expect(mockFetch).toHaveBeenCalled();
+    expect(mockFetch.mock.lastCall[0]).toEqual(
+      `http://example.com/oki?a=1&b=2&expiry=${timestamp + 100}`
+    );
+    expect(mockFetch.mock.lastCall[1].headers['X-Signature']).toEqual(
+      sign({
+        secret: 'secret',
+        params: { a: 1, b: 2, expiry: timestamp + 100 },
+        verb: 'GET',
+        path: '/oki',
+      })
+    );
+  });
+
   it('keeps existing headers', () => {
     fetcher(
       'http://example.com/oki',
