@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.0.0",
+    "@types/qs": "^6.9.7",
     "eslint": "^8.23.0",
     "eslint-config-next": "^12.2.5",
     "eslint-config-prettier": "^8.5.0",
@@ -39,5 +40,6 @@
     "*.jsx": "eslint --cache --fix",
     "*.ts": "eslint --cache --fix",
     "*.tsx": "eslint --cache --fix"
-  }
+  },
+  "dependencies": {}
 }

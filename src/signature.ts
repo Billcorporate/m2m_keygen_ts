@@ -35,7 +35,7 @@ export const sign = ({
   path,
 }: {
   secret: string;
-  algorithm: string;
+  algorithm?: string;
   params: ParamsTypes;
   verb: string;
   path: string;
@@ -67,7 +67,7 @@ export const validate = ({
   signature,
 }: {
   secret: string;
-  algorithm: string;
+  algorithm?: string;
   params: ParamsTypes;
   verb: string;
   path: string;
