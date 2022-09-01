@@ -126,8 +126,6 @@ fetcher(
   });
 ```
 
-````
-
 #### Helpers
 
 This lib exposes a few helpers that can be used in other projects.
@@ -148,7 +146,7 @@ translateParamsToQuery({
   f: { a: 1, b: 2 },
   g: null,
 }); // => '?a=1&b=2&c=true&d=false&e[]=1&e[]=2&e[]=3&f[a]=1&f[b]=2&g=false'
-````
+```
 
 ##### secureCompare
 
