@@ -1,6 +1,6 @@
 {
   "name": "m2m-keygen",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Simplify Machine to Machine signature generation in a secure way",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,5 +39,6 @@
     "*.jsx": "eslint --cache --fix",
     "*.ts": "eslint --cache --fix",
     "*.tsx": "eslint --cache --fix"
-  }
+  },
+  "dependencies": {}
 }

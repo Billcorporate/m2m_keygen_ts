@@ -1,4 +1,31 @@
-import { encodes } from '../../src/helpers/paramsEncoder';
+import {
+  encodes,
+  translateParamsToQuery,
+} from '../../src/helpers/paramsEncoder';
+
+describe('translateParamsToQuery', () => {
+  it('translate params to query', () => {
+    expect(
+      translateParamsToQuery({
+        a: 1,
+        b: '2',
+        c: true,
+        d: false,
+        e: [1, 2, 3],
+        f: { a: 1, b: 2 },
+        g: null,
+      })
+    ).toEqual(
+      '?a=1&b=2&c=true&d=false&e[]=1&e[]=2&e[]=3&f[a]=1&f[b]=2&g=false'
+    );
+  });
+
+  describe('when there is nothing in params ', () => {
+    it('returns empty string', () => {
+      expect(translateParamsToQuery({})).toEqual('');
+    });
+  });
+});
 
 describe('paramsEncoder', () => {
   describe('simple useCase', () => {

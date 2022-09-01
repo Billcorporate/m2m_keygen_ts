@@ -1,11 +1,23 @@
-import { Signature } from '../src/index';
+import * as All from '../src/index';
 
 describe('Signature', () => {
   it('exposes sign', () => {
-    expect(Signature.sign).toBeDefined();
+    expect(All.sign).toBeDefined();
   });
 
   it('exposes validate', () => {
-    expect(Signature.validate).toBeDefined();
+    expect(All.validate).toBeDefined();
+  });
+
+  it('exposes secureCompare', () => {
+    expect(All.secureCompare).toBeDefined();
+  });
+
+  it('exposes generateFetcher', () => {
+    expect(All.generateFetcher).toBeDefined();
+  });
+
+  it('exposes translateParamsToQuery', () => {
+    expect(All.translateParamsToQuery).toBeDefined();
   });
 });
