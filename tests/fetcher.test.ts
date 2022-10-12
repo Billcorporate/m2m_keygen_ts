@@ -30,10 +30,10 @@ describe('generateFetcher', () => {
     fetcher('http://example.com/oki', { a: 1, b: 2 });
 
     expect(mockFetch).toHaveBeenCalled();
-    expect(mockFetch.mock.lastCall[0]).toEqual(
+    expect((mockFetch.mock.lastCall || [])[0]).toEqual(
       `http://example.com/oki?a=1&b=2&expiry=${timestamp + 90}`
     );
-    expect(mockFetch.mock.lastCall[1].headers['X-Signature']).toEqual(
+    expect((mockFetch.mock.lastCall || [])[1].headers['X-Signature']).toEqual(
       sign({
         secret: 'secret',
         params: { a: 1, b: 2, expiry: timestamp + 90 },
@@ -41,7 +41,7 @@ describe('generateFetcher', () => {
         path: '/oki',
       })
     );
-    expect(mockFetch.mock.lastCall[1].headers['Accept']).toEqual(
+    expect((mockFetch.mock.lastCall || [])[1].headers['Accept']).toEqual(
       'application/json'
     );
   });
@@ -50,10 +50,10 @@ describe('generateFetcher', () => {
     fetcher('http://example.com/oki', { a: 1, b: 2, expiry: timestamp + 100 });
 
     expect(mockFetch).toHaveBeenCalled();
-    expect(mockFetch.mock.lastCall[0]).toEqual(
+    expect((mockFetch.mock.lastCall || [])[0]).toEqual(
       `http://example.com/oki?a=1&b=2&expiry=${timestamp + 100}`
     );
-    expect(mockFetch.mock.lastCall[1].headers['X-Signature']).toEqual(
+    expect((mockFetch.mock.lastCall || [])[1].headers['X-Signature']).toEqual(
       sign({
         secret: 'secret',
         params: { a: 1, b: 2, expiry: timestamp + 100 },
@@ -71,8 +71,12 @@ describe('generateFetcher', () => {
     );
 
     expect(mockFetch).toHaveBeenCalled();
-    expect(mockFetch.mock.lastCall[1].headers['Accept']).toEqual('text/plain');
-    expect(mockFetch.mock.lastCall[1].headers['Pokemon']).toEqual('Red');
+    expect((mockFetch.mock.lastCall || [])[1].headers['Accept']).toEqual(
+      'text/plain'
+    );
+    expect((mockFetch.mock.lastCall || [])[1].headers['Pokemon']).toEqual(
+      'Red'
+    );
   });
 
   describe('when the method is specified', () => {
@@ -80,8 +84,10 @@ describe('generateFetcher', () => {
       fetcher('http://example.com/oki', { a: 1, b: 2 }, { method: 'post' });
 
       expect(mockFetch).toHaveBeenCalled();
-      expect(mockFetch.mock.lastCall[0]).toEqual(`http://example.com/oki`);
-      expect(mockFetch.mock.lastCall[1].headers['X-Signature']).toEqual(
+      expect((mockFetch.mock.lastCall || [])[0]).toEqual(
+        `http://example.com/oki`
+      );
+      expect((mockFetch.mock.lastCall || [])[1].headers['X-Signature']).toEqual(
         sign({
           secret: 'secret',
           params: { a: 1, b: 2, expiry: timestamp + 90 },
@@ -95,16 +101,20 @@ describe('generateFetcher', () => {
       fetcher('http://example.com/oki', { a: 1, b: 2 }, { method: 'post' });
 
       expect(mockFetch).toHaveBeenCalled();
-      expect(mockFetch.mock.lastCall[0]).toEqual(`http://example.com/oki`);
-      expect(mockFetch.mock.lastCall[1].method).toEqual('post');
+      expect((mockFetch.mock.lastCall || [])[0]).toEqual(
+        `http://example.com/oki`
+      );
+      expect((mockFetch.mock.lastCall || [])[1].method).toEqual('post');
     });
 
     it('JSON encodes the params in the body', () => {
       fetcher('http://example.com/oki', { a: 1, b: 2 }, { method: 'post' });
 
       expect(mockFetch).toHaveBeenCalled();
-      expect(mockFetch.mock.lastCall[0]).toEqual(`http://example.com/oki`);
-      expect(mockFetch.mock.lastCall[1].body).toEqual(
+      expect((mockFetch.mock.lastCall || [])[0]).toEqual(
+        `http://example.com/oki`
+      );
+      expect((mockFetch.mock.lastCall || [])[1].body).toEqual(
         JSON.stringify({ a: 1, b: 2, expiry: timestamp + 90 })
       );
     });
@@ -113,10 +123,12 @@ describe('generateFetcher', () => {
       fetcher('http://example.com/oki', { a: 1, b: 2 }, { method: 'post' });
 
       expect(mockFetch).toHaveBeenCalled();
-      expect(mockFetch.mock.lastCall[0]).toEqual(`http://example.com/oki`);
-      expect(mockFetch.mock.lastCall[1].headers['Content-Type']).toEqual(
-        'application/json'
+      expect((mockFetch.mock.lastCall || [])[0]).toEqual(
+        `http://example.com/oki`
       );
+      expect(
+        (mockFetch.mock.lastCall || [])[1].headers['Content-Type']
+      ).toEqual('application/json');
     });
   });
 });
