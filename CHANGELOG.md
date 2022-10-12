@@ -7,14 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Changed
+
+- Update dependencies
+
 ## [1.0.0] - 2022-09-01
 
-## Added
+### Added
 
 - `generateFetcher` function have been added.
 - Helpers functions have been exposed.
 
-## Changed
+### Changed
 
 - Signature container has been removed and all methods are flattened.
 
