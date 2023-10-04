@@ -11,6 +11,7 @@ jobs:
           - "14"
           - "16"
           - "18"
+          - "20"
 
     runs-on: ubuntu-latest
 
